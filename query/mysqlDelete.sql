@@ -1,4 +1,6 @@
-use db01;
+use programingqna;
+
+delete from board;
 
 delete from board where subject = '푸하하하';
 

@@ -25,11 +25,12 @@ public class BoardController extends HttpServlet {
 
         if(url.equals("BoardDelete")){
             responseUrl = "/BoardDelete";
+            RequestDispatcher dispatcher = request.getRequestDispatcher(responseUrl);
+            dispatcher.forward(request, response);
         } else if (url.equals("index")) {
             responseUrl = "/index.jsp";
+            response.sendRedirect(responseUrl);
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(responseUrl);
-        dispatcher.forward(request, response);
     }
 }

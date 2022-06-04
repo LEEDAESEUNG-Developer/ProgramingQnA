@@ -27,13 +27,13 @@ public class MemberController extends HttpServlet {
             if(getUrl.equals("memberInfoEdit")){
                 url = "/login/memberInfoEdit.jsp";
                 request.setAttribute("memberInfo", memberEditModel.getMember());
+                RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                dispatcher.forward(request, response);
             } else if(getUrl.equals("memberInfoPro")){
                 memberEditModel.changeMember();
+                response.sendRedirect(url);
             }
         }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        dispatcher.forward(request, response);
     }
 
     private boolean sessionCheck(HttpServletRequest request){
