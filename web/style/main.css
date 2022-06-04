@@ -1,0 +1,36 @@
+/* 전체 페이지의 크기 */
+.main{
+    width: 1000px;
+}
+
+/* 내용 */
+.contentBox{
+    width: 800px;
+    height: 100%;
+    margin-top: 30px;
+    margin-left: 250px;
+}
+
+/* 이미지 배너 */
+.banner img{
+    height: 465px;
+    margin-bottom: 30px;
+}
+
+/* 게시판 */
+.board{
+    width: 100%;
+}
+ /* 최신글 */
+.latestArticleBox{
+    width: 300px;
+    display: inline-block;
+    float: left;
+}
+
+ /* 인기글 */
+.popularArticleBox{
+    width: 300px;
+    display: inline-block;
+    float: right;
+}

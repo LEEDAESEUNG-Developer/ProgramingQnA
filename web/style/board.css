@@ -1,0 +1,27 @@
+#container{
+    width: 700px;
+    margin-left: 150px;
+}
+
+/* 게시판 길이 */
+.boardSize{
+    height: 470px;
+    margin-top: 15px;
+}
+
+/* 게시글 */
+.boardUnit{
+    border: 1px solid gray;
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+.subject label{
+    width: 180px;
+}
+
+/* 페이징 */
+#page_control{
+    font-size: 20px;
+    text-align: center;
+}

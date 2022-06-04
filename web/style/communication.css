@@ -1,0 +1,166 @@
+/* 전체 페이지 길이 */
+#container {
+    width: 700px;
+    margin-left: 200px;
+    border-collapse: collapse;
+}
+
+/* 공통 */
+.margin20px {
+    margin: 10px 20px;
+}
+
+/* 게시판 */
+.boardInfoBox {
+    width: 700px;
+    height: auto;
+    border: 1px solid black;
+
+}
+
+.border_writer {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.regDate {
+    margin-left: 20px;
+}
+
+/* 게시판 번호, 게시판 분류 */
+.boardNo_subject_btn {
+    width: 100px;
+    display: inline;
+    margin-left: 20px;
+}
+
+.boardClassification {
+    display: inline;
+}
+
+.tab {
+    display: inline-block;
+    width: 440px;
+}
+
+/* 수정, 삭제 버튼 */
+.boardNo_btn_Box {
+    display: inline;
+    width: 80px;
+    margin-left: 20px;
+}
+
+.boardNo_btn_Box form {
+    display: inline;
+}
+
+.boardNo_btn_Box input[type="submit"] {
+    border: none;
+    background: none;
+    color: blue;
+}
+
+.board_subject {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.board_content {
+    height: auto;
+}
+
+/* 전체 댓글 */
+.comment {
+    margin-top: 40px;
+    border: 1px solid black;
+    height: auto;
+}
+
+.title {
+    border-bottom: 1px solid black;
+}
+
+/* 댓글 */
+.comments {
+    margin: 10px 20px;
+    height: auto;
+}
+
+.writer {
+    display: flex;
+    font-weight: 500;
+    margin-bottom: -10px;
+}
+
+.writer_img {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.comment_writer_date {
+}
+
+.comment_writer {
+    font-weight: bold;
+}
+
+.edit-hidden{
+    display: none;
+}
+
+.comment_date {
+    font-weight: 300;
+}
+
+.contentBox {
+    font-size: 13px;
+}
+
+.textarea-hidden {
+    display: none;
+}
+
+/* 로그인 */
+.login {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 댓글 추가 구역 */
+.commentAdd {
+    width: 100%;
+    height: auto;
+}
+
+.addWriter {
+    margin-left: 20px;
+}
+
+.comment-add-writer {
+    display: inline;
+    font-size: 16px;
+}
+
+#summernote {
+    width: 90%;
+    height: 30px;
+}
+
+.note-editor {
+    margin: 10px 20px 10px 20px;
+}
+
+.memberInfo .btns {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*
+move: edit
+commentNo: 37
+boardNo: 346
+content: <p><u>adfasfd</u></p>
+*/

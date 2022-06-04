@@ -1,0 +1,8 @@
+/* 공통으로 사용하는 부분 */
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    cursor: pointer;
+}

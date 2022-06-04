@@ -1,0 +1,26 @@
+/* 왼쪽 사이드 바*/
+.sidebar{
+    width: 120px;
+    height: 100%;
+    background: aliceblue;
+    margin-right: 40px;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar li{
+    margin-bottom: 20px;
+}
+
+#memberInfo{
+    display: flex;
+}
+
+.c_welcome{
+    display: inline-block;
+    width: 40px;
+    height: auto;
+    word-break: break-word;
+}
