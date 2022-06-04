@@ -12,7 +12,7 @@
             <li class="list-group-item"><a href="/login/login.jsp">로그인</a></li>
             <li class="list-group-item"><a href="/login/register.jsp">회원가입</a></li>
             <li class="list-group-item"><a href="/board/boardQnA.jsp">Q&A</a></li>
-            <li class="list-group-item"><a href="/board/chatBoard.jsp">커뮤니티</a></li>
+            <li class="list-group-item"><a href="/board/communityBoard.jsp">커뮤니티</a></li>
             <li class="list-group-item"><a href="/board/board.jsp">전체 게시글</a></li>
         </ul>
 </div>

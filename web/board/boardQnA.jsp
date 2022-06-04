@@ -17,12 +17,12 @@
   <link rel="stylesheet" href="../style/board.css">
 </head>
 <body>
-
 <%
-  BoardDAO boardDAO = BoardDAO.getInstance();
+  String select = request.getParameter("select") != null ? request.getParameter("select") : "latestPost";
+  BoardDAO boardDAO = null;
 
   // 게시판에 있는 글 개수를 확인
-  int cnt = boardDAO.getBoardCount(10);
+  int cnt = 1;
 
   ////////////////////////////////////////////////////////////////
   // 페이징 처리
@@ -38,7 +38,7 @@
   int endPage = 0;   // 끝 페이지
 
   String pageNum = request.getParameter("pageNum"); // 페이지 번호
-  if(pageNum == null) {
+  if (pageNum == null) {
     pageNum = "1"; // 페이지 값이 없으면 1페이지 지정
     response.sendRedirect("boardQnA.jsp?pageNum=" + pageNum);
   }
@@ -47,15 +47,18 @@
   int currentPage = Integer.parseInt(pageNum); // 현재 페이지 수
   int startRowCount = (currentPage - 1) * pageOutputSize; // 페이지의 게시글 수
 
-  List<BoardDTO> board = boardDAO.getQnABoards(startRowCount, pageBlock);
+  boardDAO = BoardDAO.getInstance(startRowCount, pageBlock);
+  cnt = boardDAO.getBoardCount(10);
+
+  List<BoardDTO> board = boardDAO.getQnABoards(select);
   pageContext.setAttribute("board", board);
 %>
 <jsp:include page="../sidebar/sidebarControll.jsp"/>
 <div id="container">
   <h3>커뮤니티</h3>
   <div>
-    <a href="">최신순</a>&ensp;&ensp;&ensp;&ensp;
-    <a href="">조회순</a>&ensp;&ensp;&ensp;&ensp;
+    <a href="boardQnA.jsp?pageNum=1&select=latestPost">최신순</a>&ensp;&ensp;&ensp;&ensp;
+    <a href="boardQnA.jsp?pageNum=1&select=viewPost">조회순</a>&ensp;&ensp;&ensp;&ensp;
     <input type="text" name="" id="">
     <input type="button" value="검색">
     <a href="writerBoard.jsp">새 글쓰기</a>
@@ -72,30 +75,31 @@
     </c:forEach>
   </div>
   <div id="page_control">
-    <% if(cnt != 0){
+    <% if (cnt != 0) {
       /////////////////////////
       // 페이징 처리
       // 전체 페이지수 계산
       pageMaxCount = cnt / pageOutputSize + (cnt % pageOutputSize == 0 ? 0 : 1);
 
       // 한 페이지에 보여줄 페이지 블럭 시작번호 계산
-      startPage = ((currentPage-1)/pageBlock)*pageBlock+1;
+      startPage = ((currentPage - 1) / pageBlock) * pageBlock + 1;
 
       // 한 페이지에 보여줄 페이지 블럭 끝 번호 계산
       endPage = startPage + pageBlock - 1;
-      if(endPage > pageMaxCount) endPage = pageMaxCount;
+      if (endPage > pageMaxCount) endPage = pageMaxCount;
     } %>
-    <% if(startPage > pageBlock) {%> <!-- 다음블럭에서 이전 버튼을 나오게함 -->
-    <a href="boardQnA.jsp?pageNum=<%=startPage - pageBlock%>"> < 이전</a>
+    <% if (startPage > pageBlock) {%> <!-- 다음블럭에서 이전 버튼을 나오게함 -->
+    <a href="boardQnA.jsp?pageNum=<%=startPage - pageBlock%>&select=<%=select%>"> < 이전</a>
     <% } %>
-    <% for(int i=startPage;i<=endPage;i++){ %> <%-- 페이지 밑에 페이지수를 출력--%>
-    <a href="boardQnA.jsp?pageNum=<%=i%>"><%=i%></a>
+    <% for (int i = startPage; i <= endPage; i++) { %> <%-- 페이지 밑에 페이지수를 출력--%>
+    <a href="boardQnA.jsp?pageNum=<%=i%>&select=<%=select%>"><%=i%>
+    </a>
     <%} %>
 
-    <% if(endPage< pageMaxCount) { /* 다음 페이지 이동 */
+    <% if (endPage < pageMaxCount) { /* 다음 페이지 이동 */
       int movePage = currentPage + 10;
-      if(movePage > pageMaxCount) movePage = pageMaxCount;
-      out.print("<a href='boardQnA.jsp?pageNum=" + (startPage+pageBlock) + "'>다음 > </a>");
+      if (movePage > pageMaxCount) movePage = pageMaxCount;
+      out.print("<a href='boardQnA.jsp?pageNum=" + (startPage + pageBlock) + "&select=" + select + "'>다음 > </a>");
     } %>
   </div>
 </div>

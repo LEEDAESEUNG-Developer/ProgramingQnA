@@ -13,7 +13,7 @@
             <li class="list-group-item"><a href="/MemberController?url=memberInfoEdit">개인정보 수정</a></li>
             <li class="list-group-item"><a href="/login/logoout.jsp">로그아웃</a></li>
             <li class="list-group-item"><a href="/board/boardQnA.jsp">Q&A</a></li>
-            <li class="list-group-item"><a href="/board/chatBoard.jsp">커뮤니티</a></li>
+            <li class="list-group-item"><a href="/board/communityBoard.jsp">커뮤니티</a></li>
             <li class="list-group-item"><a href="/board/board.jsp">전체 게시글</a></li>
             <li class="list-group-item"><a href="#">관리자페이지</a></li>
         </ul>

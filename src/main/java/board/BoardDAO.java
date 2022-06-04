@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardDAO {
+
+    private static int startRowNum = 0;
+    private static int endRowNum = 0;
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
@@ -28,55 +31,37 @@ public class BoardDAO {
         return instance;
     }
 
-    /**
-     * 게시판 전체를 가지고 온다
-     *
-     * @return 게시판 전체를 리턴
-     */
-    public List<BoardDTO> getAllBoard(){
-        List<BoardDTO> board = new ArrayList<>();
-        String sql = "select * from board order by boardNo desc";
-
-        try {
-            conn = DbcpUtill.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-
-            while(rs.next()){
-                BoardDTO boardDTO = new BoardDTO();
-                boardDTO.setBoardNo(rs.getInt("boardNo"));
-                boardDTO.setClassification(rs.getInt("classification"));
-                boardDTO.setWriter(rs.getString("writer"));
-                boardDTO.setSubject(rs.getString("subject"));
-                boardDTO.setContent(rs.getString("content"));
-                boardDTO.setCount(rs.getInt("count"));
-                boardDTO.setRegDate(rs.getTimestamp("regDate"));
-                board.add(boardDTO);
-            }
-
-        } catch (NamingException | SQLException e) {
-            System.out.println("MemberDAO.getBoard 메소드: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            DbcpUtill.close(conn, pstmt, rs);
-        }
-        return board;
+    public static BoardDAO getInstance(int startRowNum, int maxRowNum){
+        BoardDAO.startRowNum = startRowNum;
+        BoardDAO.endRowNum = maxRowNum;
+        return instance;
     }
     
     /**
-     * startRow 번째 부터 pageSize 번째까지 게시판을 가지고 온다(페이징)
+     * 최신순, 조회순으로 가지고 온다
+     * 페이징 처리는 필드를 이용하였음
      *
      * @return startRow 번째 ~ pageSize 번째까지 게시판을 반환
      */
-    public List<BoardDTO> getAllBoard(int startRow, int pageSize){
+    public List<BoardDTO> getAllBoard(String select){
+        String sql = "";
         List<BoardDTO> board = new ArrayList<>();
-        String sql = "select * from board order by boardNo desc limit ?, ?";
+        
+        /* 최신순 */
+        if(select != null && select.equals("latestPost")){
+            sql = "select * from board order by boardNo desc limit ?, ?";
+        }
+
+        /* 조회순 */
+        if(select != null && select.equals("viewPost")){
+            sql = "select * from board order by count desc limit ?, ?";
+        }
 
         try {
             conn = DbcpUtill.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, startRow);
-            pstmt.setInt(2, pageSize);
+            pstmt.setInt(1, startRowNum);
+            pstmt.setInt(2, endRowNum);
             rs = pstmt.executeQuery();
 
             while(rs.next()){
@@ -134,7 +119,6 @@ public class BoardDAO {
         return board;
     }
 
-
     /**
      * 게시판의 분류코드를 가지고 분류명을 가지고 온다
      *
@@ -173,7 +157,7 @@ public class BoardDAO {
      */
     public int getBoardCount(){
         String sql = "select count(*) from board";
-        int cnt = 0;
+        int cnt = 1;
 
         try {
             conn = DbcpUtill.getConnection();
@@ -296,15 +280,25 @@ public class BoardDAO {
      *
      * @return QnA 게시글 리턴
      */
-    public List<BoardDTO> getQnABoards(int startRowCount, int pageBlock) {
+    public List<BoardDTO> getQnABoards(String select) {
         List<BoardDTO> board = new ArrayList<>();
         String sql = "select * from board where classification = 10 order by boardNo desc limit ?, ?";
+
+        /* 최신순 */
+        if(select != null && select.equals("latestPost")){
+            sql = "select * from board where classification = 10 order by boardNo desc limit ?, ?";
+        }
+
+        /* 조회순 */
+        if(select != null && select.equals("viewPost")){
+            sql = "select * from board where classification = 10 order by count desc limit ?, ?";
+        }
 
         try{
             conn = DbcpUtill.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, startRowCount);
-            pstmt.setInt(2, pageBlock);
+            pstmt.setInt(1, startRowNum);
+            pstmt.setInt(2, endRowNum);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -329,19 +323,29 @@ public class BoardDAO {
     }
 
     /**
-     * 수다 게시글를 가지고 온다
+     * 커뮤니티 게시글를 가지고 온다
      *
-     * @return 수다 게시글 리턴
+     * @return 커뮤니티 게시글 리턴
      */
-    public List<BoardDTO> getChatBoards(int startRowCount, int pageBlock){
+    public List<BoardDTO> getCommunityBoards(String select){
         List<BoardDTO> board = new ArrayList<>();
         String sql = "select * from board where classification = 20 order by boardNo desc limit ?, ?";
+
+        /* 최신순 */
+        if(select != null && select.equals("latestPost")){
+            sql = "select * from board where classification = 20 order by boardNo desc limit ?, ?";
+        }
+
+        /* 조회순 */
+        if(select != null && select.equals("viewPost")){
+            sql = "select * from board where classification = 20 order by count desc limit ?, ?";
+        }
 
         try{
             conn = DbcpUtill.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, startRowCount);
-            pstmt.setInt(2, pageBlock);
+            pstmt.setInt(1, startRowNum);
+            pstmt.setInt(2, endRowNum);
             rs = pstmt.executeQuery();
 
             while (rs.next()) {

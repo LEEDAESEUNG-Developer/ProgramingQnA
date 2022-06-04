@@ -15,7 +15,9 @@ values ('관리자',
 
 -- board 테이블에 값을 넣음
 insert into board(classification, writer, subject, content, count)
-values (10, 'admin', '자바 예외처리', '자바 예외처리 할 때 에러가 발생', 10);
+values (10, 'admin', '자바 예외처리1', '자바 예외처리 할 때 에러가 발생', 10);
+insert into board(classification, writer, subject, content)
+values (10, 'admin', '자바 예외처리2', '자바 예외처리 할 때 에러가 발생');
 
 insert into board(classification, writer, subject, content)
 values (20, 'admin', '푸하하하', '빨래 널기 싫다');

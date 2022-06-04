@@ -19,10 +19,11 @@
 </head>
 <body>
     <%
-        BoardDAO boardDAO = BoardDAO.getInstance();
+        String select = request.getParameter("select") != null ? request.getParameter("select") : "latestPost";
+        BoardDAO boardDAO = null;
 
         // 게시판에 있는 글 개수를 확인
-        int cnt = boardDAO.getBoardCount();
+        int cnt = 1;
 
         ////////////////////////////////////////////////////////////////
         // 페이징 처리
@@ -47,15 +48,17 @@
         int currentPage = Integer.parseInt(pageNum); // 현재 페이지 수
         int startRowCount = (currentPage - 1) * pageOutputSize; // 페이지의 게시글 수
 
-        List<BoardDTO> board = boardDAO.getAllBoard(startRowCount, pageBlock);
+        boardDAO = BoardDAO.getInstance(startRowCount, pageBlock);
+        cnt = boardDAO.getBoardCount();
+        List<BoardDTO> board = boardDAO.getAllBoard(select);
         pageContext.setAttribute("board", board);
     %>
     <jsp:include page="../sidebar/sidebarControll.jsp"/>
     <div id="container">
         <h3>전체 게시글</h3>
         <div>
-            <a href="">최신순</a>&ensp;&ensp;&ensp;&ensp;
-            <a href="">조회순</a>&ensp;&ensp;&ensp;&ensp;
+            <a href="board.jsp?pageNum=1&select=latestPost">최신순</a>&ensp;&ensp;&ensp;&ensp;
+            <a href="board.jsp?pageNum=1&select=viewPost">조회순</a>&ensp;&ensp;&ensp;&ensp;
             <input type="text" name="" id="">
             <input type="button" value="검색">
             <a href="writerBoard.jsp">새 글쓰기</a>
@@ -63,8 +66,9 @@
         <div class="boardSize">
             <c:forEach var="forBoard" items="${board}">
             <div class="boardUnit">
-                <span class="subject"><label><a
-                        href="/board/communication.jsp?boardNo=${forBoard.boardNo}">${forBoard.subject}</a></label></span>
+                <span class="subject">
+                    <label><a href="/board/communication.jsp?boardNo=${forBoard.boardNo}">${forBoard.subject}</a></label>
+                </span>
                 <span class="comment"><ion-icon name="chatbubbles-outline"></ion-icon></span> <%--댓글--%>
                 <span class="writer">${forBoard.writer}</span>
                 <span class="regDate"><fmt:formatDate value="${forBoard.regDate}" pattern="yy-MM-dd kk:mm"/></span>
@@ -86,16 +90,16 @@
             if(endPage > pageMaxCount) endPage = pageMaxCount;
         } %>
         <% if(startPage > pageBlock) {%> <!-- 다음블럭에서 이전 버튼을 나오게함 -->
-            <a href="board.jsp?pageNum=<%=startPage - pageBlock%>"> < 이전</a>
+            <a href="board.jsp?pageNum=<%=startPage - pageBlock%>&select=<%=select%>"> < 이전</a>
         <% } %>
         <% for(int i=startPage;i<=endPage;i++){ %> <%-- 페이지 밑에 페이지수를 출력--%>
-        <a href="board.jsp?pageNum=<%=i%>"><%=i%></a>
+        <a href="board.jsp?pageNum=<%=i%>&select=<%=select%>"><%=i%></a>
         <%} %>
 
         <% if(endPage< pageMaxCount) { /* 다음 페이지 이동 */
             int movePage = currentPage + 10;
             if(movePage > pageMaxCount) movePage = pageMaxCount;
-            out.print("<a href='board.jsp?pageNum=" + (startPage+pageBlock) + "'>다음 > </a>");
+            out.print("<a href='board.jsp?pageNum=" + (startPage+pageBlock) + "&select=" + select + "'>다음 > </a>");
         } %>
         </div>
     </div>
